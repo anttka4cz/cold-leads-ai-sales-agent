@@ -9,7 +9,7 @@ A complete, runnable reference agent for [Cold Leads](https://coldleads.app/deve
 5. **Process replies**: the queue of replies waiting for an answer, with each lead's history and reply class
 6. **Follow up**: record the next step on each contact so the next session (human or agent) picks it up
 
-It runs in about a minute **without an API key**, against the hosted demo server `https://coldleads.app/api/mcp/demo`. The demo has the same tools as the live server over a sample workspace (fictional contacts on `.example` domains); it never sends e-mail and uses no credits.
+It is built on the official SDK [`@coldleads/sdk`](https://www.npmjs.com/package/@coldleads/sdk) and runs in about a minute **without an API key**: the SDK's demo mode talks to the hosted demo server `https://coldleads.app/api/mcp/demo`. The demo has the same tools as the live server over a sample workspace (fictional contacts on `.example` domains); it never sends e-mail and uses no credits.
 
 ## Run it (no key)
 
@@ -50,9 +50,9 @@ With a key the agent connects to `https://coldleads.app/api/mcp` and works in yo
 
 | File | What it does |
 | --- | --- |
-| `src/coldleads.mjs` | Connects with the official MCP client over Streamable HTTP. It reads `coldleads/requires_approval` from each tool's `_meta`, so the approval list comes from the server, not from a hard-coded list. |
-| `src/workflow.mjs` | The scripted agent: every MCP call of the six steps in order. `--transcript run.json` saves every call and result. |
-| `src/claude-agent.mjs` | A Claude tool-use loop over the same tools, with the approval gate on sending tools. |
+| `src/coldleads.mjs` | Creates the SDK client: `new ColdLeads({ demo: true })` without a key, your workspace with one. `crm.tools()` returns each tool's `requiresApproval` flag, so the approval list comes from the server, not from a hard-coded list. |
+| `src/workflow.mjs` | The scripted agent: the six steps with the SDK's typed methods (`crm.importContacts`, `crm.verifyEmail`, `crm.createCampaignDraft`, `crm.nextActions`, `crm.scheduleFollowUp`, …). `--transcript run.json` saves every call and result. |
+| `src/claude-agent.mjs` | A Claude tool-use loop: `crm.tools()` supplies the tool schemas and `crm.callTool()` runs what Claude asks for, with the approval gate on sending tools. |
 | `src/approval.mjs` | The human-in-the-loop prompt. |
 
 ## Limits worth knowing
@@ -78,7 +78,7 @@ With a key the agent connects to `https://coldleads.app/api/mcp` and works in yo
 
 - [Developer docs](https://coldleads.app/developers?utm_source=github&utm_medium=readme&utm_campaign=sales-agent)
 - [MCP server](https://github.com/anttka4cz/mcp-server-coldleads)
-- [Node.js SDK](https://github.com/anttka4cz/coldleads-node-sdk)
+- [Node.js SDK](https://github.com/anttka4cz/coldleads-node-sdk) · [npm](https://www.npmjs.com/package/@coldleads/sdk)
 - [REST API](https://coldleads.app/api/v1) · [OpenAPI](https://coldleads.app/api/v1/openapi.json)
 
 MIT licensed.
