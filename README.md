@@ -59,7 +59,20 @@ With a key the agent connects to `https://coldleads.app/api/mcp` and works in yo
 
 - Cold Leads has no third-party lead database and does not enrich contacts. You bring the leads.
 - Live verification checks syntax, disposable domains, role addresses and MX records. The mailbox (SMTP) check runs only when Cold Leads can reach the recipient's mail server; otherwise the result says `smtp_unreachable`. The demo's sample results use the same reason codes.
-- The demo keeps your changes for one MCP session (24 hours), visible only to that session.
+- The demo is deliberately small; see the limits below. Each run of this agent uses 3 of the 10 contacts, the 1 template and the 1 campaign draft, so start a new session (run it again) rather than repeating steps in one session.
+
+### Demo limits
+
+| Limit | Value |
+| --- | --- |
+| Session | 24 hours from its start (not extended), visible only to that session |
+| Contacts | 10, including the 4 sample contacts |
+| Templates | 1 of your own (besides the sample template; update it with `template_id`) |
+| Campaign drafts | 1 |
+| Text length | notes 100 characters, template body 500, message 200 |
+| Requests | 120 per minute and 20 new sessions per hour per IP address |
+| Verification | sample results for the three demo prospects; other addresses get syntax, disposable-domain and role checks only (no MX or mailbox check) |
+| Sending | never: `send_contact_message` and `launch_campaign` still require approval, then return `demo_not_sent` |
 
 ## Links
 
