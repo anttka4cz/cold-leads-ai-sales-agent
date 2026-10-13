@@ -1,0 +1,5 @@
+[
+  { "email": "jana.dvorak@ridgeline.example", "name": "Jana Dvořák", "company": "Ridgeline Logistics" },
+  { "email": "info@harborlane.example", "company": "Harbor Lane Coffee" },
+  { "email": "piotr@quillmetrics.example", "name": "Piotr Kowalski", "company": "Quill Metrics" }
+]

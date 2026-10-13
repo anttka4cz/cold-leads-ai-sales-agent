@@ -1,0 +1,20 @@
+{
+  "name": "cold-leads-ai-sales-agent",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Reference AI sales agent for Cold Leads: create leads, verify e-mail, prepare drafts, wait for human approval, work replies and follow-ups over MCP.",
+  "type": "module",
+  "license": "MIT",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node src/workflow.mjs",
+    "claude": "node src/claude-agent.mjs",
+    "test": "node test/smoke.mjs"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "0.129.0",
+    "@modelcontextprotocol/sdk": "1.31.0"
+  },
+  "repository": { "type": "git", "url": "git+https://github.com/anttka4cz/cold-leads-ai-sales-agent.git" },
+  "homepage": "https://coldleads.app/developers"
+}
