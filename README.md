@@ -24,7 +24,7 @@ Node.js 20 or newer. You are asked to approve the campaign launch and each reply
 
 ### Let Claude drive it
 
-`src/claude-agent.mjs` gives Claude (`claude-opus-5-5`) the Cold Leads tools and your request. The approval gate is the same: tools the server marks `coldleads/requires_approval` (`send_contact_message`, `launch_campaign`) run only after you type `yes`.
+`src/claude-agent.mjs` gives Claude (`claude-opus-5-5`) the Cold Leads tools and your request. The approval gate is the same: tools the server marks `coldleads/requires_approval` (`send_contact_message`, `launch_campaign`, `reply_social_message`) or as an external side effect (`setup_website_lead_capture`), and `schedule_social_post` (a post that goes out publicly later, while the autopost runs), run only after you type `yes`.
 
 ```bash
 export ANTHROPIC_API_KEY=...
@@ -50,7 +50,7 @@ With a key the agent connects to `https://coldleads.app/api/mcp` and works in yo
 
 | File | What it does |
 | --- | --- |
-| `src/coldleads.mjs` | Creates the SDK client: `new ColdLeads({ demo: true })` without a key, your workspace with one. `crm.tools()` returns each tool's `requiresApproval` flag, so the approval list comes from the server, not from a hard-coded list. |
+| `src/coldleads.mjs` | Creates the SDK client: `new ColdLeads({ demo: true })` without a key, your workspace with one. `crm.tools()` returns each tool's `requiresApproval` flag and side effect, so the approval list comes from the server; the agent adds `schedule_social_post` because scheduled posts publish by themselves later. |
 | `src/workflow.mjs` | The scripted agent: the six steps with the SDK's typed methods (`crm.importContacts`, `crm.verifyEmail`, `crm.createCampaignDraft`, `crm.nextActions`, `crm.scheduleFollowUp`, …). `--transcript run.json` saves every call and result. |
 | `src/claude-agent.mjs` | A Claude tool-use loop: `crm.tools()` supplies the tool schemas and `crm.callTool()` runs what Claude asks for, with the approval gate on sending tools. |
 | `src/approval.mjs` | The human-in-the-loop prompt. |

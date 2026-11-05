@@ -1,6 +1,7 @@
 // Claude drives the Cold Leads tools itself, through the SDK (@coldleads/sdk: crm.tools() and crm.callTool()).
 // The same human-approval gate applies: tools the server marks coldleads/requires_approval (send_contact_message,
-// launch_campaign) or as an external side effect (setup_website_lead_capture) run only after a person types "yes".
+// launch_campaign, reply_social_message), as an external side effect (setup_website_lead_capture) or that publish later
+// (schedule_social_post) run only after a person types "yes".
 //   ANTHROPIC_API_KEY=... node src/claude-agent.mjs "Verify these three contacts and prepare outreach drafts: ..."
 import Anthropic from "@anthropic-ai/sdk";
 import { connect } from "./coldleads.mjs";

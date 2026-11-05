@@ -12,8 +12,10 @@ export async function connect({ onCall } = {}) {
 
   // Every Cold Leads tool declares its side effect and whether a human must approve it.
   const tools = await client.crm.tools();
-  // The agent also asks before any other action outside the CRM (for example creating a public website-form key).
-  const needsApproval = new Set(tools.filter((t) => t.requiresApproval || t.sideEffect === "external_side_effect").map((t) => t.name));
+  // The agent also asks before any other action outside the CRM (for example creating a public website-form key),
+  // and before scheduling a social post: it is published publicly by itself later, while the autopost runs.
+  const PUBLISHES_LATER = ["schedule_social_post"];
+  const needsApproval = new Set(tools.filter((t) => t.requiresApproval || t.sideEffect === "external_side_effect" || PUBLISHES_LATER.includes(t.name)).map((t) => t.name));
 
   // Runs one SDK call and records it for the transcript; tool errors come back as data, like MCP results.
   async function track(tool, args, run) {
